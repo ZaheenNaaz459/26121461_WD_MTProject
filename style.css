@@ -1,0 +1,357 @@
+/* Colours and spacing: cream neutrals plus ONE olive accent (links and buttons only) */
+:root {
+  --page: #F1EADB; --card: #FAF6EC; --sheet: #FFFFFF;
+  --text: #2B2118; --muted: #4A3F33; --line: #C9BC9E; --shadow: #D8CBB0;
+  --accent: #4F5B3A;
+  --s1: 8px; --s2: 24px; --s3: 40px;
+}
+
+/* Reset and whole page: sizes include padding, the nav bar stays in view after a jump, no sideways scrolling */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-padding-top: 112px; overflow-x: hidden; }
+
+/* body: cream background, Gamja Flower text, two-column grid (profile card + content) */
+body {
+  margin: 0; padding: 0 var(--s2) var(--s3);
+  display: grid; grid-template-columns: 320px 1fr; column-gap: var(--s3);
+  background: var(--page); color: var(--text);
+  font-family: "Gamja Flower", cursive; font-size: 21px; line-height: 1.5;
+}
+
+/* Headings: Playfair Display, dark, with a small soft shadow so they pop */
+h1, h2, h3, h4 { font-family: "Playfair Display", Georgia, serif; font-weight: 600; line-height: 1.2; text-shadow: 1px 1px 0 var(--shadow); }
+h1 { margin: 0 0 var(--s1); font-size: 32px; }
+h2 { display: flex; align-items: center; gap: var(--s1); margin: 0 0 var(--s2); font-size: 32px; }
+h3 { display: flex; align-items: center; gap: var(--s1); margin: 0 0 var(--s1); font-size: 22px; }
+
+/* Paragraphs, lists and links: lines stay about 65 characters wide */
+p { max-width: 65ch; margin: 0 0 var(--s1); }
+ul { margin: 0; padding-left: 20px; }
+a { color: var(--accent); text-underline-offset: 3px; }
+a:hover { color: var(--text); }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* Icons: thin line drawings that take the colour of their text */
+.sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+.icon { width: 22px; height: 22px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Navigation bar: a flexbox row of icon + label links */
+nav { grid-column: 1 / -1; display: flex; flex-wrap: wrap; justify-content: center; gap: var(--s1); margin: var(--s2) 0; padding: var(--s1); background: var(--card); border: 1px solid var(--line); border-radius: 4px; }
+.nav-link { display: flex; align-items: center; gap: var(--s1); min-height: 44px; padding: 0 12px; border-radius: 4px; text-decoration: none; }
+.nav-link:hover { background: var(--page); color: var(--text); }
+
+/* Navigation bar: marks the page you are on */
+body:not(:has(.page:target)) nav [href="#home"],
+body:has(#about:target) nav [href="#about"],
+body:has(#education:target) nav [href="#education"],
+body:has(#experience:target) nav [href="#experience"],
+body:has(#skills:target) nav [href="#skills"],
+body:has(#extras:target) nav [href="#extras"],
+body:has(#resume-page:target) nav [href="#resume-page"] { background: var(--page); color: var(--text); }
+
+/* Profile card (#home): stays at the side on every page and is always the same size */
+#home { grid-column: 1; align-self: start; position: sticky; top: var(--s2); width: 320px; padding: var(--s2); text-align: center; background: var(--card); border: 1px solid var(--line); border-radius: 4px; }
+.avatar { display: block; width: 176px; height: 216px; margin: var(--s1) auto var(--s2); object-fit: cover; object-position: 50% 30%; border-radius: 50%; border: 1px solid var(--line); outline: 1px solid var(--line); outline-offset: 6px; }
+.role { margin: 0 auto var(--s2); color: var(--muted); }
+
+/* Buttons: filled olive (main action) and outlined (secondary action) */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--s1); min-height: 44px; padding: 0 16px; border: 1px solid var(--accent); border-radius: 4px; background: var(--accent); color: var(--card); text-decoration: none; }
+.btn:hover { background: var(--text); border-color: var(--text); color: var(--card); }
+.btn-light { background: transparent; color: var(--accent); }
+.btn-light:hover { background: var(--page); border-color: var(--text); color: var(--text); }
+.contact { display: flex; flex-direction: column; gap: var(--s1); }
+
+/* Content area: a centred column that shows one page at a time (Home shows when no page is chosen) */
+main { grid-column: 2; justify-self: center; width: 100%; max-width: 720px; }
+.page { display: none; }
+.page:target { display: block; animation: slide-in 0.5s ease; }
+main:has(.page:target) #intro { display: none; }
+@keyframes slide-in { from { opacity: 0; transform: translateX(var(--s2)); } }
+
+/* Home (#intro): big headline, four flat cards in a 2 x 2 grid, one line, the quote */
+.headline { display: block; font-size: 44px; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s2); margin: var(--s2) 0; }
+.grid .card { display: flex; flex-direction: column; }
+.more { display: inline-flex; align-items: center; gap: var(--s1); min-height: 44px; margin-top: auto; }
+.after { margin: 0; }
+blockquote { margin: var(--s2) 0; font-family: "Playfair Display", Georgia, serif; font-style: italic; font-size: 22px; }
+blockquote p { margin: 0 0 var(--s1); }
+blockquote footer { font-family: "Gamja Flower", cursive; font-style: normal; color: var(--muted); }
+
+/* Cards: flat cream boxes with a thin outline, stacked with flexbox */
+.cards { display: flex; flex-direction: column; gap: var(--s2); }
+.card { padding: var(--s2); background: var(--card); border: 1px solid var(--line); border-radius: 4px; }
+.card p:last-child { margin-bottom: 0; }
+.meta { color: var(--muted); }
+
+/* Skills list: plain list, each skill followed by its proof */
+.list { display: flex; flex-direction: column; gap: var(--s1); padding: 0; list-style: none; }
+.label { font-family: "Playfair Display", Georgia, serif; font-weight: 600; }
+
+/* Previous / Next buttons at the bottom of each page */
+.pager { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--s1); margin-top: var(--s3); }
+.pager .btn:only-child { margin-left: auto; }
+.download { margin-bottom: var(--s2); }
+
+/* Paper resume (#resume): a white one-page sheet in a classic serif */
+#resume { padding: var(--s3); background: var(--sheet); border: 1px solid var(--line); font-family: "Playfair Display", Georgia, serif; font-size: 16px; line-height: 1.5; }
+#resume h3 { margin: 0; font-size: 28px; text-shadow: none; }
+#resume h4 { margin: var(--s2) 0 var(--s1); padding-bottom: 4px; border-bottom: 1px solid var(--line); font-size: 17px; text-transform: uppercase; letter-spacing: 0.06em; text-shadow: none; }
+#resume p { max-width: none; }
+#resume strong { font-weight: 600; }
+
+/* Home scroll effect: the card starts in the centre and slides left as you scroll, and the intro slides in beside it (browsers without this feature show the normal layout) */
+@supports (animation-timeline: scroll()) {
+  body:not(:has(.page:target)) :is(#home, #intro) {
+    animation: slide-left linear both;
+    animation-timeline: scroll(root block);
+    animation-range: 0 240px;
+    --shift: calc(50vw - 184px);
+  }
+  body:not(:has(.page:target)) #intro { --shift: min(380px, calc(50vw - 184px)); animation-name: info-in; min-height: calc(100vh + 120px); }
+}
+@keyframes slide-left { from { transform: translateX(var(--shift)); } }
+@keyframes info-in { from { transform: translateX(var(--shift)); opacity: 0.25; } }
+
+/* Phones (narrower than 700px): one column, everything stacked, no sliding */
+@media (max-width: 699px) {
+  body { display: block; padding: 0 16px var(--s3); font-size: 20px; }
+  nav { margin: 16px 0; }
+  .nav-link { padding: 0 var(--s1); }
+  #home { position: static; width: auto; margin-bottom: var(--s3); }
+  body:not(:has(.page:target)) :is(#home, #intro) { animation: none; min-height: 0; }
+  main:has(.page:target) #intro { display: block; }
+  #intro, .page, .page:target { display: block; margin-bottom: var(--s3); animation: none; }
+  .headline { font-size: 34px; }
+  .grid { grid-template-columns: 1fr; }
+  .pager { display: none; }
+  #resume { padding: var(--s2); }
+}
+
+/* Print: show only the resume, black text on white, on one A4 page */
+@media print {
+  @page { size: A4; margin: 14mm; }
+  body { display: block; padding: 0; background: #fff; color: #000; }
+  nav, #home, #intro, .sprite, .download, .pager, #resume-page > h2 { display: none !important; }
+  .page { display: none !important; }
+  #resume-page { display: block !important; animation: none; }
+  main { max-width: none; }
+  #resume { padding: 0; border: 0; background: #fff; font-size: 11pt; }
+  #resume, #resume * { color: #000; border-color: #000; }
+}
+
+/* Reduced motion: turn off sliding and fading for people who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  body:not(:has(.page:target)) :is(#home, #intro), .page:target { animation: none; min-height: 0; }
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+
+
+/* Upgraded Paper Resume Sheet */
+.paper-resume {
+    margin-top: 50px;
+}
+
+.resume-sheet {
+    background: #fcfbf9;
+    padding: 55px 60px;
+    border: 1px solid #e5e0d8;
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.06);
+    border-radius: 6px;
+    color: #1f2421;
+}
+
+.resume-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 2px solid #1f2421;
+    padding-bottom: 20px;
+    margin-bottom: 28px;
+    gap: 20px;
+}
+
+.resume-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.3rem;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+    margin-bottom: 6px;
+    color: #1f2421;
+}
+
+.resume-subtitle {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #5c6460;
+}
+
+.resume-contact-block {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.85rem;
+}
+
+.resume-contact-block a {
+    color: #1f2421;
+    text-decoration: none;
+    border-bottom: 1px solid #b8b2a6;
+    padding-bottom: 1px;
+}
+
+.resume-contact-block span {
+    color: #6b7280;
+    font-size: 0.8rem;
+}
+
+.resume-section {
+    margin-bottom: 28px;
+}
+
+.resume-section h2 {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    color: #6b7280;
+    border-bottom: 1px solid #e5e0d8;
+    padding-bottom: 6px;
+    margin-bottom: 14px;
+}
+
+.resume-summary {
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: #2d3330;
+}
+
+/* Experience Entries */
+.resume-entry {
+    margin-bottom: 18px;
+    padding-left: 14px;
+    border-left: 2px solid #d6cfc2;
+}
+
+.resume-entry:last-child {
+    margin-bottom: 0;
+}
+
+.entry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.resume-entry h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.98rem;
+    font-weight: 600;
+    color: #1f2421;
+}
+
+.entry-tag {
+    font-size: 0.75rem;
+    font-weight: 500;
+    background: #f0ece3;
+    color: #4a463f;
+    padding: 2px 9px;
+    border-radius: 12px;
+    white-space: nowrap;
+}
+
+.entry-sub {
+    font-size: 0.82rem;
+    font-style: italic;
+    color: #6b7280;
+    margin-bottom: 4px;
+}
+
+.resume-entry p:last-child {
+    font-size: 0.88rem;
+    color: #3f4642;
+    line-height: 1.55;
+}
+
+/* Two-Column Bottom Split */
+.resume-two-col {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 35px;
+    margin-top: 10px;
+}
+
+.edu-entry {
+    margin-bottom: 14px;
+}
+
+.edu-entry h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #1f2421;
+}
+
+.edu-entry p {
+    font-size: 0.85rem;
+    color: #4a524e;
+}
+
+/* Skill Pills */
+.skill-group {
+    margin-bottom: 12px;
+}
+
+.skill-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #5c6460;
+    margin-bottom: 6px;
+}
+
+.skill-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.skill-pills span {
+    font-size: 0.78rem;
+    background: #ffffff;
+    border: 1px solid #dcd6ca;
+    color: #2d3330;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.skill-pills.muted span {
+    background: #f5f2eb;
+    border-color: transparent;
+    color: #5c6460;
+}
+
+@media (max-width: 768px) {
+    .resume-sheet {
+        padding: 30px 24px;
+    }
+    .resume-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .resume-contact-block {
+        text-align: left;
+    }
+    .resume-two-col {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
